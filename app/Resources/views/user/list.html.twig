@@ -4,7 +4,13 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1><span>Welcome to</span> Symfony 2 {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
+
+                {% for user in users %}
+                    <li>
+                        <a href="/user/{{ user.idUser }}">{{ user.name }}</a>
+                    </li>
+                {% endfor %}
+
             </div>
 
         </div>
