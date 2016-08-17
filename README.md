@@ -1,4 +1,4 @@
-# Further Information Soon
+# PHP Test
 
 ## My first touchs in Symfony
 This test shows mainly the adaptability to move to any environment in short spaces of time
