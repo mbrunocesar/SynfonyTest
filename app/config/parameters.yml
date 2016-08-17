@@ -1,10 +1,10 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_host: YOUR_HOST
-    database_port: YOUR_PORT
-    database_name: YOUR_DATABASE
-    database_user: YOUR_USERNAME
-    database_password: YOUR_PASSWORD
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: DevTest
+    database_user: root
+    database_password: asdqwe123
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null

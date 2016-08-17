@@ -15,6 +15,8 @@ use AppBundle\Entity\User;
 class UserController extends Controller
 {
 
+    private $isTest = false;
+
     /**
      * @Route("/users")
      * @Method("GET")
@@ -32,7 +34,7 @@ class UserController extends Controller
         }
         $response['status'] = "OK";
 
-        return new Response(json_encode($response));
+        return $this->formattedResponse($response);
     }
 
 
@@ -42,6 +44,7 @@ class UserController extends Controller
      */
     public function viewAction($id)
     {
+        $statusCode = 200;
         $response['validate'] = $this->isValidUser($id);
 
         $user = $this->userModel()->findOneByIdUser($id);
@@ -54,11 +57,13 @@ class UserController extends Controller
             $response['email'] = $user->getEmail();
 
         } else {
+            $statusCode = 404;
+
             $response['status'] = "FAIL";
             $response['reason'] = "User not found";
         }
 
-        return new Response(json_encode($response));
+        return $this->formattedResponse($response, $statusCode);
     }
 
 
@@ -68,6 +73,7 @@ class UserController extends Controller
      */
     public function updateAction($id, Request $request)
     {
+        $statusCode = 200;
         $put = $request->request;
 
         $em = $this->getDoctrine()->getManager();
@@ -93,16 +99,20 @@ class UserController extends Controller
                 $response['status'] = "OK";
 
             } catch (Exception $e) {
+                $statusCode = 500;
+
                 $response['status'] = "FAIL";
                 $response['reason'] = "DB Error";
             }
 
         } else {
+            $statusCode = 404;
+
             $response['status'] = "FAIL";
             $response['reason'] = "User not found";
         }
 
-        return new Response(json_encode($response));
+        return $this->formattedResponse($response, $statusCode);
     }
 
 
@@ -112,6 +122,8 @@ class UserController extends Controller
      */
     public function deleteAction($id)
     {
+        $statusCode = 200;
+
         $user = $this->userModel()->findOneByIdUser($id);
         if (isset($user)) {
             $response['nome'] = $user->getName();
@@ -124,16 +136,20 @@ class UserController extends Controller
 
                 $response['status'] = "OK";
             } catch (Exception $e) {
+                $statusCode = 500;
+
                 $response['status'] = "FAIL";
                 $response['reason'] = "DB Error";
             }
 
         } else {
+            $statusCode = 404;
+
             $response['status'] = "FAIL";
             $response['reason'] = "User not found";
         }
 
-        return new Response(json_encode($response));
+        return $this->formattedResponse($response, $statusCode);
     }
 
 
@@ -142,6 +158,8 @@ class UserController extends Controller
      */
     public function insertAction(Request $post)
     {
+        $statusCode = 200;
+
         $postId = $post->get('id');
 
         $user = $this->userModel()->findOneByIdUser($postId);
@@ -166,16 +184,33 @@ class UserController extends Controller
                 $response['id'] = $user->getIdUser();
 
             } catch (Exception $e) {
+                $statusCode = 500;
+
                 $response['status'] = "FAIL";
                 $response['reason'] = "DB Error";
             }
 
         } else {
+            $statusCode = 404;
+
             $response['status'] = "FAIL";
             $response['reason'] = "A user with this ID is already found";
         }
 
-        return new Response(json_encode($response));
+        return $this->formattedResponse($response, $statusCode);
+    }
+
+
+    public function setTestMode($isTest)
+    {
+        $this->isTest = $isTest;
+    }
+
+    private function formattedResponse(&$partial, $statusCode = 200) {
+        $response = new Response(json_encode($partial), $statusCode);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
 
@@ -183,7 +218,7 @@ class UserController extends Controller
         return $this->getDoctrine()->getRepository('AppBundle:User');
     }
 
-    private function isValidUser($id) {
+    public function isValidUser($id) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://private-d65c6-phpdevtest.apiary-mock.com/user/{$id}/isvalid");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
