@@ -23,9 +23,16 @@ class UserController extends Controller
     {
         $users = $this->userModel()->findAll();
 
-        return $this->render('user/list.html.twig', [
-            'users' => $users,
-        ]);
+        foreach ($users as $user) {
+            $key = $user->getIdUser();
+            $response[$key]['id'] = $key;
+            $response[$key]['name'] = $user->getName();
+            $response[$key]['phone'] = $user->getPhone();
+            $response[$key]['email'] = $user->getEmail();
+        }
+        $response['status'] = "OK";
+
+        return new Response(json_encode($response));
     }
 
 
