@@ -1,0 +1,41 @@
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	error_log /home/master/Projects/PHPDevTest/www/phpTest/error.log;
+
+	# root /var/www/html;
+	root /home/master/Projects/PHPDevTest/www/phpTest/web/;
+
+	# Add index.php to the list if you are using PHP
+	index app_dev.php index.html index.htm;
+
+	server_name project.local;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ /app_dev.php?$args;
+	}
+
+	location ~ ^/(app|app_dev|config)\.php(/|$) {
+		fastcgi_pass 127.0.0.1:9000;
+		# fastcgi_pass   unix:/usr/local/var/run/php55.sock;
+		# fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+		# fastcgi_split_path_info ^(.+\.php)(/.*)$;
+		# include        fastcgi_params;
+		fastcgi_index  index.php;
+		fastcgi_param  SCRIPT_FILENAME  /home/master/Projects/PHPDevTest/www/phpTest/web/$fastcgi_script_name;
+		include fastcgi.conf;
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+

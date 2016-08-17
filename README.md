@@ -1,5 +1,38 @@
 # Further Information Soon
 
+## My first touchs in Symfony
+This test shows mainly the adaptability to move to any environment in short spaces of time
+
+There's a lot more of things that should have been made here, break the UserController in two class, one with real controller job, and another to manage the display of jsons and exceptions (that would have allowed a better use of unit test)
+
+But given the time being, was a good Job
+
+
+## The project environment
+This test is running in a NGINX + PHP 7.0 + Symfony 2.3 + MYSQL 5.6
+
+The main config files will be placed just for viewing purposes under the root directory
+
+The database schema is:
+- from the mysql database
+- "schema.sql"
+
+The php-fpm config is:
+- from "/etc/php/7.0/fpm/pool.d/www.conf"
+- in "php-fpm.www.conf"
+
+The nginx config is in:
+- from "/etc/nginx/sites-enabled/default"
+- in "nginx.enabled"
+
+
+## Tests
+Like I said above, the unit's test is a bit silly, but at least the functional test can be useful to see the job running
+
+- just run "phpinit" in the project root and it's done
+
+
+# Use examples
 
 ## GET Initial Examples
 
