@@ -3,19 +3,20 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\User;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class UserController extends Controller
 {
 
     /**
-     * @Route("/users", name="View All Users")
+     * @Route("/users")
      * @Method("GET")
      */
     public function listAction()
@@ -29,7 +30,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/user/{id}", name="View User")
+     * @Route("/user/{id}")
      * @Method("GET")
      */
     public function viewAction($id)
@@ -55,12 +56,15 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/user/{id}", name="Update User")
+     * @Route("/user/{id}")
      * @Method("PUT")
      */
-    public function updateAction($id)
+    public function updateAction($id, Request $request)
     {
+        $put = $request->request;
+
         $em = $this->getDoctrine()->getManager();
+
         $user = $em->getRepository('AppBundle:User')->find($id);
         if (isset($user)) {
 
@@ -96,7 +100,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/user/{id}", name="Delete User")
+     * @Route("/user/{id}")
      * @Method("DELETE")
      */
     public function deleteAction($id)
@@ -127,7 +131,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/user/", name="Update User")
+     * @Route("/user/")
      */
     public function insertAction(Request $post)
     {

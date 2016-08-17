@@ -18,14 +18,14 @@ curl -X "GET" http://localhost/user/123
 
 ## POST Examples
 
-curl -X POST -F 'name=Cesar' -F 'phone=11-95287-4246' -F 'email=bruno.cesar.paula@usp.br' http://localhost/user/
+curl -X POST -F 'name=Cesar 2' -F 'phone=11-95287-4246' -F 'email=bruno.cesar.paula@usp.br' http://localhost/user/
 {"status":"OK","id":124}
 
 
 ## PUT Examples
 
-curl -X PUT -F 'phone=11-91234-8765' http://localhost/user/123
-{"status":"OK","id":123}
+curl -X "PUT" -d 'phone=11-91234-8765' http://localhost/user/1
+{"status":"OK"}
 
 
 ## DELETE Examples
