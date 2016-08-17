@@ -191,7 +191,7 @@ class UserController extends Controller
             }
 
         } else {
-            $statusCode = 404;
+            $statusCode = 401;
 
             $response['status'] = "FAIL";
             $response['reason'] = "A user with this ID is already found";
@@ -200,11 +200,6 @@ class UserController extends Controller
         return $this->formattedResponse($response, $statusCode);
     }
 
-
-    public function setTestMode($isTest)
-    {
-        $this->isTest = $isTest;
-    }
 
     private function formattedResponse(&$partial, $statusCode = 200) {
         $response = new Response(json_encode($partial), $statusCode);
